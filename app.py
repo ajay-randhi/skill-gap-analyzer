@@ -11,6 +11,9 @@ from flask import (
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from services.skill_gap import analyze_gaps
+
+from services.readiness import calculate_readiness
+
 from services.readiness_updates import blend_assessment_with_quiz_scores
 from services.recommendations import recommend_projects
 
