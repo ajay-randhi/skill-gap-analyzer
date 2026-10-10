@@ -2158,3 +2158,9 @@ if __name__ == "__main__":
     app.run(
         debug=os.environ.get("FLASK_DEBUG", "0") == "1"
     )
+
+# Initialize the database when the app starts on Render/Gunicorn.
+with app.app_context():
+    init_db()
+
+
