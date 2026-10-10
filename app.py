@@ -924,14 +924,28 @@ def init_db():
     conn.close()
 
 
+
 def login_required(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
-        if not session.get("student_id"):
-            flash("Please sign in to access your dashboard.", "info")
+        student = current_student()
+
+        # Reject sessions whose student record no longer exists.
+        if student is None:
+            session.pop("student_id", None)
+            session.pop("student_name", None)
+            session.pop("pending_quiz", None)
+
+            flash(
+                "Your session is invalid or expired. Please sign in again.",
+                "info"
+            )
             return redirect(url_for("login"))
+
         return fn(*args, **kwargs)
+
     return wrapper
+
 
 
 def current_student():
